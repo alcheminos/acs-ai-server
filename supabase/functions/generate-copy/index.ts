@@ -17,7 +17,7 @@ serve(async (req) => {
     if (!prompt) throw new Error("프롬프트가 없습니다.");
 
     // Google Gemini API 호출
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
     
     const systemInstruction = `
       당신은 TV 서비스(B tv)의 노련한 마케팅 카피라이터입니다.
