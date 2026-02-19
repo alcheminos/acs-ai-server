@@ -16,7 +16,7 @@ serve(async (req) => {
     const { prompt } = await req.json();
     if (!prompt) throw new Error("프롬프트가 없습니다.");
 
-    // Google Gemini API 호출 (검색 도구 추가)
+    // Google Gemini API 호출
     const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
     
     const systemInstruction = `
@@ -39,8 +39,8 @@ serve(async (req) => {
         contents: [{
           parts: [{ text: systemInstruction + "\n\n사용자 요청: " + prompt }]
         }],
-        // [핵심] 구글 검색 도구 활성화
-        tools: [{ google_search_retrieval: {} }]
+        // [수정됨] 에러 해결: google_search_retrieval -> google_search 로 변경
+        tools: [{ google_search: {} }]
       })
     });
 
@@ -51,6 +51,7 @@ serve(async (req) => {
     }
 
     let rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
+    // 마크다운 제거
     rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
     
     const parsedData = JSON.parse(rawText);
