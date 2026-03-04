@@ -3,13 +3,13 @@ name: Supabase Keep Alive
 on:
   schedule:
     - cron: '0 0 * * 0' # 매주 일요일 0시에 실행
+  workflow_dispatch: # Actions 탭에서 수동 실행 가능
 
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Supabase API
+      - name: Ping Edge Function (OPTIONS)
         run: |
-          curl -X GET "${{ secrets.SUPABASE_URL }}/rest/v1/" \
-          -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+          curl -X OPTIONS "${{ secrets.SUPABASE_URL }}/functions/v1/generate-copy" \
           -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"
